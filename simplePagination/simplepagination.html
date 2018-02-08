@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+        <title>simplePagination</title>
+
+        <link href="css/simlePagination.css" type="text/css" rel="stylesheet"/>
+        <link href="css/glbal.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div id="pagination-1"></div>
+        <table id="content-1">
+            <tbody>
+                <tr>
+                    <td>Window</td>
+                    <td>John</td>
+                </tr>
+                <tr>
+                    <td>Door</td>
+                    <td>Chris</td>
+                </tr>
+                <tr>
+                    <td>Floor</td>
+                    <td>Michael</td>
+                </tr>
+                <tr>
+                    <td>Car</td>
+                    <td>James</td>
+                </tr>
+                <tr>
+                    <td>Bike</td>
+                    <td>Steven</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="pagination-2"></div>
+        <table id="content-2">
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>11</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>12</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script src="js/jquery-1.10.2.min.js"></script>
+        <script src="js/jquery.simplePagination.js"></script>
+
+        <script>
+            // Consider going through the basic simplePagination example before this:
+            // https://github.com/bilalakil/bin/tree/master/simplepagination/index.html
+            jQuery(function($) {
+                /*
+                 * The `options` argument is an object (i.e. `{}`)
+                 * which should have values specified for the following properties:
+                 *
+                 *     { // The values provided for each property are just examples!
+                 *         itemSelector: "#content tbody tr"
+                 *       , paginatorSelector: "#pagination"
+                 *       , itemsPerPage: 2
+                 *     }
+                 */
+                function paginate(options) {
+                    // Notice that this function has exactly the same logic as the basic example,
+                    // but with some hardcoded values replaced by properties in `options`.
+                    var items = $(options.itemSelector);
+                    var numItems = items.length;
+                    var perPage = options.itemsPerPage;
+                    items.slice(perPage).hide();
+                    $(options.paginationSelector).pagination({
+                        items: numItems,
+                        itemsOnPage: perPage,
+                        cssStyle: "light-theme",
+                        onPageClick: function(pageNumber) {
+                            var showFrom = perPage * (pageNumber - 1);
+                            var showTo = showFrom + perPage;
+                            items.hide()
+                                 .slice(showFrom, showTo).show();
+                            // By returning false in this function
+                            // we prevent the plugin from changing the page fragment
+                            // (i.e. the "#page-3" added to your page URL).
+                            // This is desirable when there are multiple paginators on the page,
+                            // as that fragment (unmodified) isn't tied to a specific paginator.
+                            return false;
+                        }
+                    });
+                }
+                // Now let's call the functions and create our paginators!
+                paginate({
+                    itemSelector: "#content-1 tbody tr"
+                  , paginationSelector: "#pagination-1"
+                  , itemsPerPage: 2
+                });
+                paginate({
+                    itemSelector: "#content-2 tbody tr"
+                  , paginationSelector: "#pagination-2"
+                  , itemsPerPage: 3
+                });
+            });
+        </script>
+    </body>
+</html>
