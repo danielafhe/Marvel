@@ -5,8 +5,8 @@ let jsVotantes;
 let apiActualizada = false;
 
 //var imgNotAva = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
-//var imgNotAva = "recursos/caratulas/image_not_available.jpg";
-var imgNotAva = "recursos/caratulas/generica.jpg";
+var imgNotAva = "recursos/caratulas/image_not_available.jpg";
+//var imgNotAva = "recursos/caratulas/generica.jpg";
 
 var keyPublic = "94bb05418c2277d4e4065e4a5336879d";
 var keyPrivate = "2d1b1267a94252c88f7c88f3edef2964eafd1cd3";
@@ -33,9 +33,9 @@ function getData(e) {
     let urlCh = "https://gateway.marvel.com:443/v1/public/characters?orderBy=name&limit=" + cantidad + "&apikey=" + keyPublic;
     let elegido = e == 0 ? urlCo : urlCh;
 
-    let ts = new Date().getTime();
-    let hash = CryptoJS.MD5(ts + keyPrivate + keyPublic);
-    elegido += "&ts=" + ts + "&hash=" + hash;
+    //let ts = new Date().getTime();
+    //let hash = CryptoJS.MD5(ts + keyPrivate + keyPublic);
+    //elegido += "&ts=" + ts + "&hash=" + hash;
 
     return $.get(elegido);
 }
@@ -79,12 +79,14 @@ function peticionMarvel(a, b) {
     let promises = [];
     promises.push(a);
     promises.push(b);
+    $(".errorServer").hide();
     $(".loader").show();
     comicsAll = [];
     charactersAll = [];
 
     $.when.apply($, promises).done(function () {
         let args = Array.prototype.slice.call(arguments, 0);
+        console.log(args);
 
         let comics = args[0][0];
         let jsComics = comics.data.results;
@@ -95,14 +97,12 @@ function peticionMarvel(a, b) {
                 c.id = jsComics[i].id != null ? jsComics[i].id : "Indefinido.";
                 c.img = jsComics[i].images[0] != null ? jsComics[i].images[0].path + "." + jsComics[i].images[0].extension : imgNotAva;
                 c.title = jsComics[i].title != null ? jsComics[i].title : "No contiene título.";
-                c.description = jsComics[i].description != null ? jsComics[i].description : "No contiene una descripción válida.";
+                c.description = jsComics[i].description != null && jsComics[i].description != "" ? jsComics[i].description : "No contiene una descripción válida.";
                 c.page = jsComics[i].pageCount != null ? jsComics[i].pageCount : "Indefinido.";
                 c.pricePrint = jsComics[i].prices[0] != null ? jsComics[i].prices[0].price : "Indefinido.";
                 c.priceDigital = jsComics[i].prices[1] != null ? jsComics[i].prices[1].price : "Indefinido.";
                 comicsAll.push(c);
             });
-        } else {
-            $("#cuerpo1").append("<p>Ha ocurrido un error con la peticion </p>");
         }
 
         let characters = args[1][0];
@@ -114,11 +114,9 @@ function peticionMarvel(a, b) {
                 c.id = jsCharacters[i].id != null ? jsCharacters[i].id : "Indefinido.";
                 c.img = jsCharacters[i].thumbnail != null ? jsCharacters[i].thumbnail.path + "." + jsCharacters[i].thumbnail.extension : imgNotAva;
                 c.name = jsCharacters[i].name != null ? jsCharacters[i].name : "Indefinido.";
-                c.description = jsCharacters[i].description != null ? jsCharacters[i].description : "No contiene una descripción válida.";
+                c.description = jsCharacters[i].description != null && jsCharacters[i].description != "" ? jsCharacters[i].description : "No contiene una descripción válida.";
                 charactersAll.push(c);
             });
-        } else {
-            $("#cuerpo2").append("<p>Ha ocurrido un error con la peticion </p>");
         }
 
         $cargarTitles();
@@ -127,6 +125,9 @@ function peticionMarvel(a, b) {
         localStorage.setItem("charactersAll", JSON.stringify(charactersAll));
         $(".loader").hide();
         //inicializado = true;
+    }).catch(function (error) {
+        $(".errorServer").fadeIn(3000);
+        $(".loader").hide();
     });
     //}
 }
@@ -247,7 +248,7 @@ function saveVote(e) {
         $("#error").fadeIn(1500);
         setTimeout(function () {
             $("#error").fadeOut(3000);
-        }, 5000);
+        }, 3000);
     }
 
     localStorage.setItem("jsVotantes", JSON.stringify(jsVotantes));

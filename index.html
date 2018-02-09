@@ -16,7 +16,7 @@
     <div class="container">
         <nav aria-label="Página web de votaciones." class="navbar navbar-expand-lg navbar-light bg-light">
             <a aria-labelledby="logo" class="navbar-brand" href="index.html">
-                <img id="logo" aria-label="Link para volver al índice." src="recursos/logos/imax-logo.svg" alt="Logo de la empresa" width="70"
+                <img id="logo" aria-label="Link para volver al índice." src="recursos/logos/marvel.svg" alt="Logo de la empresa" width="70"
                     height="50">
             </a>
 
@@ -64,17 +64,26 @@
         <div class="loader"></div>
 
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div id="pagination-1"></div>
+            <div class="parentPaginator">
+                <div id="pagination-1"></div>
+            </div>
+            <p style="display:none" class='errorServer'>Ha ocurrido un error con la peticion, verifíquelo.</p>
+
             <div tabindex="0" aria-label="Contenedor de resultados, aquí se muestran las diez primeras opciones a votar." id="cuerpo1"
                 class="d-flex flex-wrap justify-content-around">
                 <!-- Todo el código generado -->
+
             </div>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <div id="pagination-2"></div>
+            <div class="parentPaginator">
+                <div id="pagination-2"></div>
+            </div>
+            <p style="display:none" class='errorServer'>Ha ocurrido un error con la peticion, verifíquelo.</p>
             <div tabindex="0" aria-label="Contenedor de resultados, aquí se muestran las diez primeras opciones a votar." id="cuerpo2"
                 class="d-flex flex-wrap justify-content-around">
                 <!-- Todo el código generado -->
+
             </div>
         </div>
     </div>
