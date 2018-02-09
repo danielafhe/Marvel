@@ -125,8 +125,8 @@ function peticionMarvel(a, b) {
                 c.title = jsComics[i].title != null ? jsComics[i].title : "No contiene título.";
                 c.description = jsComics[i].description != null && jsComics[i].description != "" ? jsComics[i].description : "No contiene una descripción válida.";
                 c.page = jsComics[i].pageCount != null ? jsComics[i].pageCount : "Indefinido.";
-                c.pricePrint = jsComics[i].prices[0] != null ? jsComics[i].prices[0].price : "Indefinido.";
-                c.priceDigital = jsComics[i].prices[1] != null ? jsComics[i].prices[1].price : "Indefinido.";
+                c.pricePrint = jsComics[i].prices[0] != null ? jsComics[i].prices[0].price : "?";
+                c.priceDigital = jsComics[i].prices[1] != null ? jsComics[i].prices[1].price : "?";
                 comicsAll.push(c);
             });
         }
