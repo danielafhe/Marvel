@@ -199,7 +199,6 @@ function saveVote(e) {
     let index = $("#md-body-info").attr("ident");
     let title = $("#md-title").text();
 
-
     if (e.id == "comicVote") {
         $(jsVotantes).each(function (i) {
             if ($(this)[0].email == email && $(this)[0].votoComicId == "") {
@@ -249,6 +248,8 @@ function saveVote(e) {
         setTimeout(function () {
             $("#error").fadeOut(3000);
         }, 3000);
+    } else {
+        $('#cerrarModal').click();
     }
 
     localStorage.setItem("jsVotantes", JSON.stringify(jsVotantes));
