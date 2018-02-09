@@ -97,3 +97,7 @@ let $cargarPaginacion = function () {
         itemsPerPage: 10
     });
 };
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}

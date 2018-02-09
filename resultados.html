@@ -45,16 +45,19 @@
         <div id="cuerpo" class="d-flex flex-wrap justify-content-around">
             <h1 tabindex="0" >Elige el tipo de gráfico que deseas: </h1>
             <div class="btn-group" role="group" aria-label="Botones de seleción de gráficos.">
-                <button aria-label="Seleccionar tarta." type="button" ident="0" onclick="makeChart(0)" class="btn btn-secondary">
+                <button aria-label="Seleccionar tarta." type="button" ident="0" onclick="makeChartComics(0), makeChartCharacters(0)" class="btn btn-secondary">
                     <i class="fa fa-pie-chart" aria-hidden="true"></i>Tarta</button>
-                <button aria-label="Seleccionar barras." type="button" ident="1" onclick="makeChart(1)" class="btn btn-secondary">
+                <button aria-label="Seleccionar barras." type="button" ident="1" onclick="makeChartComics(1), makeChartCharacters(1)" class="btn btn-secondary">
                     <i class="fa fa-bar-chart" aria-hidden="true"></i>Gráfica </button>
-                <button aria-label="Seleccionar dónut." type="button" ident="2" onclick="makeChart(2)" class="btn btn-secondary">
+                <button aria-label="Seleccionar dónut." type="button" ident="2" onclick="makeChartComics(2), makeChartCharacters(2)" class="btn btn-secondary">
                     <i class="fa fa-pie-chart" aria-hidden="true"></i>Dónut</button>
             </div>
         </div>
         <div style=" height: 600px;" class="d-flex flex-wrap justify-content-around">
-            <div tabindex="0" aria-live="polite" class="col-12" id="grafica" style="height: 100%;"></div>
+            <div tabindex="0" aria-live="polite" class="col-12" id="graficaComics" style="height: 100%;"></div>
+        </div>
+        <div style=" height: 600px;" class="d-flex flex-wrap justify-content-around">
+            <div tabindex="0" aria-live="polite" class="col-12" id="graficaCharacters" style="height: 100%;"></div>
         </div>
         <!-- Todo el código generado -->
 

@@ -123,6 +123,8 @@ function peticionMarvel(a, b) {
 
         $cargarTitles();
         $cargarPaginacion();
+        localStorage.setItem("comicsAll", JSON.stringify(comicsAll));
+        localStorage.setItem("charactersAll", JSON.stringify(charactersAll));
         $(".loader").hide();
         //inicializado = true;
     });
@@ -154,6 +156,7 @@ let $cargarTitles = function () {
 }
 
 function modificarModalComic(i) {
+    $(".cajaFormulario").find("form").attr("id", "comicVote");
     $("#md-body-info").attr("ident", comicsAll[i].id);
     $("#md-title").text(comicsAll[i].title);
     let $img = $("#md-img");
@@ -170,6 +173,7 @@ function modificarModalComic(i) {
 }
 
 function modificarModalCharacter(i) {
+    $(".cajaFormulario").find("form").attr("id", "characterVote");
     $("#md-body-info").attr("ident", charactersAll[i].id);
     $("#md-title").text(charactersAll[i].name);
     let $img = $("#md-img");
@@ -185,19 +189,69 @@ function modificarModalCharacter(i) {
     $("#md-res").children().eq(5).text("Descripción: " + charactersAll[i].description);
 }
 
-function saveVote() {
+function saveVote(e) {
+    let valido = true;
+    let votado = false;
     let nombre = $("#inputName").val();
     let email = $("#inputEmail").val();
     let telefono = $("#inputTelefono").val();
     let index = $("#md-body-info").attr("ident");
+    let title = $("#md-title").text();
 
-    jsVotantes.push({
-        nombre: nombre,
-        email: email,
-        telefono: telefono,
-        voto: index
-    })
+
+    if (e.id == "comicVote") {
+        $(jsVotantes).each(function (i) {
+            if ($(this)[0].email == email && $(this)[0].votoComicId == "") {
+                jsVotantes[i].votoComicId = index;
+                jsVotantes[i].votoComicName = title;
+                votado = true;
+            } else if ($(this)[0].email == email && $(this)[0].votoComicId != "") {
+                valido = false;
+            }
+        });
+        if (!votado && valido) {
+            jsVotantes.push({
+                nombre: nombre,
+                email: email,
+                telefono: telefono,
+                votoComicId: index,
+                votoComicName: title,
+                votoCharacterId: "",
+                votoCharacterName: ""
+            })
+        }
+    } else if (e.id == "characterVote") {
+        $(jsVotantes).each(function (i) {
+            if ($(this)[0].email == email && $(this)[0].votoCharacterId == "") {
+                jsVotantes[i].votoCharacterId = index;
+                jsVotantes[i].votoCharacterName = title;
+                votado = true;
+            } else if ($(this)[0].email == email && $(this)[0].votoCharacterId != "") {
+                valido = false;
+            }
+        });
+        if (!votado && valido) {
+            jsVotantes.push({
+                nombre: nombre,
+                email: email,
+                telefono: telefono,
+                votoComicId: "",
+                votoComicName: "",
+                votoCharacterId: index,
+                votoCharacterName: title
+            })
+        }
+    }
+
+    if (!valido) {
+        $("#error").fadeIn(1500);
+        setTimeout(function () {
+            $("#error").fadeOut(3000);
+        }, 5000);
+    }
 
     localStorage.setItem("jsVotantes", JSON.stringify(jsVotantes));
     console.log(jsVotantes)
+
+    return false;
 }

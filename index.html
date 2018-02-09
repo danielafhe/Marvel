@@ -107,9 +107,10 @@
                             </div>
                         </div>
                         <hr>
-                        <div id="md-body-form">
+                        <div id="md-body-form" class="cajaFormulario">
                             <p tabindex="0">Rellena el formulario para participar en el sorteo.</p>
-                            <form class="form" action="resultados.html">
+                            <p id="error" style="Display:none">El email ya ha sido registrado, verifíquelo.</p>
+                            <form class="form" action="resultados.html" onsubmit="return saveVote(this)">
                                 <div class="form-group">
                                     <label for="inputName">Nombre.</label>
                                     <input type="text" required class="form-control" id="inputName" placeholder="Introduce un nombre">
@@ -122,7 +123,7 @@
                                     <label for="inputTelefono">Telefono.</label>
                                     <input type="text" required class="form-control" id="inputTelefono" aria-describedby="inputTelefono" placeholder="Introduce un numero">
                                 </div>
-                                <button aria-label="Pulse enter para votar por este candidato." onclick="saveVote(this)" type="submit" class="btn btn-primary">Votar</button>
+                                <button aria-label="Pulse enter para votar por este candidato." type="submit" class="btn btn-primary">Votar</button>
                             </form>
                         </div>
                     </div>
