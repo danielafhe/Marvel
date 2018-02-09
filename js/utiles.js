@@ -1,3 +1,6 @@
+/**
+ * Objeto tipo comic
+ */
 function comic() {
     this.id = "",
         this.img = "",
@@ -8,6 +11,9 @@ function comic() {
         this.priceDigital = ""
 }
 
+/**
+ * Objeto tipo character
+ */
 function character() {
     this.id = "",
         this.img = "",
@@ -15,6 +21,9 @@ function character() {
         this.description = ""
 }
 
+/**
+ * Objeto tipo votante
+ */
 let votante = {
     nombre: "",
     email: "",
@@ -22,6 +31,9 @@ let votante = {
     voto: ""
 }
 
+/**
+ * Tipos de gráficas 
+ */
 var tipos = [{
     title: 'Resultados de la votación:',
     pieSliceText: 'label',
@@ -52,21 +64,30 @@ var tipos = [{
     pieHole: 0.4
 }]
 
+/**
+ * Carga en el array de jsVotantes los datos de los votantes
+ */
 function cargar() {
     let local;
 
     local = localStorage.getItem("jsVotantes");
     if (local != null) {
         jsVotantes = JSON.parse(local);
+        /*
         console.log(local);
         jsVotantes.forEach(function (value, indice, array) {
             console.log(value);
         })
+        */
     } else {
         jsVotantes = [];
     }
 }
 
+/**
+ * Carga la páginacion, recupera los divs seleccionados en las opciones
+ * y los va paginando acorde con los parámetros
+ */
 let $cargarPaginacion = function () {
     function paginate(options) {
         var items = $(options.itemSelector);
@@ -98,6 +119,9 @@ let $cargarPaginacion = function () {
     });
 };
 
+/**
+ * Busqueda de un array, objetos unicos
+ */
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }

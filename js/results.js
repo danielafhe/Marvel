@@ -1,4 +1,6 @@
+//Array con los datos de los votantes
 let jsVotantes;
+//Tipo de gráfico elegido
 let elegido = 0;
 
 $(document).ready(function () {
@@ -6,6 +8,10 @@ $(document).ready(function () {
     makeChartCharacters(elegido);
 });
 
+/**
+ * Crea una gráfica para los comics del tipo que recibe como parámetro
+ * @param {*} e Tipo de gráfico
+ */
 function makeChartComics(e) {
     elegido = e;
     google.charts.load('current', {
@@ -24,6 +30,11 @@ function makeChartComics(e) {
     }
     //$('#grafica').focus();
 }
+
+/**
+ * Crea una gráfica para los characters del tipo que recibe como parámetro
+ * @param {*} e Tipo de gráfico
+ */
 function makeChartCharacters(e) {
     elegido = e;
     google.charts.load('current', {
@@ -43,6 +54,10 @@ function makeChartCharacters(e) {
     //$('#grafica').focus();
 }
 
+/** 
+ * Inicializa y completa el array con los votos, 
+ * devuelve el array listo para la gráfica
+*/
 function recuperarComics() {
     let votosComics = [];
     votosComics.push(['Comic', 'Votos']);
@@ -61,7 +76,10 @@ function recuperarComics() {
     });
     return votosComics;
 }
-
+/** 
+ * Inicializa y completa el array con los votos, 
+ * devuelve el array listo para la gráfica
+*/
 function recuperarCharacters() {
     let votosCharacter = [];
     votosCharacter.push(['Personaje', 'Votos']);
@@ -81,21 +99,26 @@ function recuperarCharacters() {
     return votosCharacter;
 }
 
+/**
+ * Carga en el array de jsVotantes los datos de los votantes
+ */
+/*
 function cargar() {
     let local;
 
     local = localStorage.getItem("jsVotantes");
     if (local != null) {
         jsVotantes = JSON.parse(local);
-        /*
+        
         jsVotantes.forEach(function (value, indice, array) {
             console.log(value);
         })
-        */
+        
     } else {
         jsVotantes = [];
     }
 }
+*/
 $(window).resize(function () {
     makeChartComics(elegido);
     makeChartCharacters(elegido);

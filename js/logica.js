@@ -4,13 +4,20 @@ let charactersAll = [];
 let jsVotantes;
 let apiActualizada = false;
 
+//Imagen que se muestra cuando no está disponible la original
 //var imgNotAva = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
 var imgNotAva = "recursos/caratulas/image_not_available.jpg";
 //var imgNotAva = "recursos/caratulas/generica.jpg";
 
+/** 
+ * Claves publicas y privadas para la api
+ */
 var keyPublic = "94bb05418c2277d4e4065e4a5336879d";
 var keyPrivate = "2d1b1267a94252c88f7c88f3edef2964eafd1cd3";
 
+/**
+ * Title que sirve de plantilla
+ */
 let cardTitle =
     "<div tabindex='-1' class='cardTitle card text-center' style='width: 30%; min-width: 18rem; margin-top: 2rem;'>" +
     "<img aria-label='Imagen de cartelera de la película.' class='card-img-top' src='' alt='Card image cap'>" +
@@ -26,7 +33,11 @@ $(document).ready(function () {
         peticionMarvel(getData(0), getData(1));
 });
 
+
 //credit: http://stackoverflow.com/a/1527820/52160
+/**
+ * Devuelve una u otra url dependiendo del parametro recibido
+ */
 function getData(e) {
     let cantidad = 100;
     let urlCo = "https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&noVariants=true&orderBy=title&limit=" + cantidad + "&apikey=" + keyPublic;
@@ -40,6 +51,9 @@ function getData(e) {
     return $.get(elegido);
 }
 
+/**
+ * Realiza una busqueda personalizada a la api
+ */
 function buscarCustom() {
     let ordenElegido = $("#inputGroupSelect03").val() != "Orden" ? "&orderBy=" + $("#inputGroupSelect03").val() : "";
     let startWithElegido = $("#inputSearchCustom").val() != "" ? "&nameStartsWith=" + $("#inputSearchCustom").val() : "";
@@ -48,6 +62,13 @@ function buscarCustom() {
     return false;
 }
 
+/**
+ * Dependiendo de los datos del check y del input, devuelve otros resultados 
+ * a la api.
+ * @param {*} orden valor del combobox
+ * @param {*} inicio valor del input
+ * @param {*} e tipo de busqueda, character-comic
+ */
 function getDataCustom(orden, inicio, e) {
     let ordenFinal;
     let titleFinal;
@@ -64,14 +85,19 @@ function getDataCustom(orden, inicio, e) {
     let urlCo = "https://gateway.marvel.com:443/v1/public/comics?format=comic&formatType=comic&noVariants=true&limit=" + cantidad + titleFinal + ordenFinal + "&apikey=" + keyPublic;
     let urlCh = "https://gateway.marvel.com:443/v1/public/characters?limit=" + cantidad + inicio + orden + "&apikey=" + keyPublic;
     let elegido = e == 0 ? urlCo : urlCh;
-
-    let ts = new Date().getTime();
-    let hash = CryptoJS.MD5(ts + keyPrivate + keyPublic);
-    elegido += "&ts=" + ts + "&hash=" + hash;
-
+    /*
+        let ts = new Date().getTime();
+        let hash = CryptoJS.MD5(ts + keyPrivate + keyPublic);
+        elegido += "&ts=" + ts + "&hash=" + hash;
+    */
     return $.get(elegido);
 }
-
+/**
+ * Realiza las peticiones a la api con las url recibidas, guardo los objetos recibidos en los 
+ * array correspondientes para su posterior gestion.
+ * @param {*} a Peticion numero 1, comics
+ * @param {*} b Peticion numero 2, characters
+ */
 function peticionMarvel(a, b) {
     //if (!inicializado) {
     $("#cuerpo1 *").remove();
@@ -132,6 +158,9 @@ function peticionMarvel(a, b) {
     //}
 }
 
+/** 
+ * Cargar los titles con los datos del array correspondiente
+*/
 let $cargarTitles = function () {
     $("#cuerpo1 .cardTitle").each(function (i) {
         $(this).children().eq(0).attr("src", comicsAll[i].img);
@@ -156,6 +185,10 @@ let $cargarTitles = function () {
     });
 }
 
+/**
+ * Modificar el modal para el tipo comic, mostrando en cada item su atributo
+ * @param {*} i id del comic
+ */
 function modificarModalComic(i) {
     $(".cajaFormulario").find("form").attr("id", "comicVote");
     $("#md-body-info").attr("ident", comicsAll[i].id);
@@ -173,6 +206,10 @@ function modificarModalComic(i) {
     $("#md-res").children().eq(5).text("Descripción: " + comicsAll[i].description);
 }
 
+/**
+ * Modificar el modal para el tipo comic, mostrando en cada item su atributo
+ * @param {*} i id del character
+ */
 function modificarModalCharacter(i) {
     $(".cajaFormulario").find("form").attr("id", "characterVote");
     $("#md-body-info").attr("ident", charactersAll[i].id);
@@ -190,6 +227,10 @@ function modificarModalCharacter(i) {
     $("#md-res").children().eq(5).text("Descripción: " + charactersAll[i].description);
 }
 
+/**
+ * Guarda el voto de un usuario en el array, comprobando que no se repite el email del usuario
+ * @param {*} e formulario con los datos
+ */
 function saveVote(e) {
     let valido = true;
     let votado = false;
